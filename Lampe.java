@@ -1,66 +1,76 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * La classe Lampe qui represente une lampe qu'on peut allumer et eteindre.
- * 
- * elle possede un attribut allume qui rend compte de son etat. cet attribut est
- * prive et manipulable par les methodes allumer et eteindre
+ * Classe représentant une télécommande capable de contrôler plusieurs lampes.
  */
+public class Telecommande {
 
-public class Lampe {
+    /**
+     * Liste des lampes contrôlées par la télécommande.
+     */
+    private List<Lampe> lampes;
 
-	/**
-	 * nom de la lampe
-	 */
-	private String nom;
+    /**
+     * Constructeur vide qui construit une télécommande ne contrôlant initialement aucune lampe.
+     */
+    public Telecommande() {
+        this.lampes = new ArrayList<>();
+    }
 
-	/**
-	 * etat de la lampe
-	 */
-	private boolean allume;
+    /**
+     * Ajoute une lampe à la télécommande.
+     * @param lampe La lampe à ajouter.
+     */
+    public void ajouterLampe(Lampe lampe) {
+        this.lampes.add(lampe);
+    }
 
-	/**
-	 * construit une lampe eteinte par defaut
-	 * 
-	 * @param paramNom
-	 *            nom de la lampe
-	 */
-	public Lampe(String paramNom) {
-		this.allume = false;
-		this.nom = paramNom;
-	}
+    /**
+     * Active la lampe située à l'indice donné.
+     * @param indiceLampe L'indice de la lampe à activer.
+     */
+    public void activerLampe(int indiceLampe) {
+        // Gestion du cas exceptionnel : on vérifie que l'indice est valide
+        if (indiceLampe >= 0 && indiceLampe < this.lampes.size()) {
+            this.lampes.get(indiceLampe).allumer();
+        } else {
+            throw new IndexOutOfBoundsException("Erreur : Aucune lampe à l'indice " + indiceLampe);
+        }
+    }
 
-	/**
-	 * permet de changer l'etat interne d'une lampe en l'allumant
-	 */
-	public void allumer() {
-		this.allume = true;
-	}
+    /**
+     * Désactive la lampe située à l'indice donné.
+     * @param indiceLampe L'indice de la lampe à désactiver.
+     */
+    public void desactiverLampe(int indiceLampe) {
+        // Gestion du cas exceptionnel : on vérifie que l'indice est valide
+        if (indiceLampe >= 0 && indiceLampe < this.lampes.size()) {
+            this.lampes.get(indiceLampe).eteindre();
+        } else {
+            throw new IndexOutOfBoundsException("Erreur : Aucune lampe à l'indice " + indiceLampe);
+        }
+    }
 
-	/**
-	 * permet de changer l'etat interne d'une lampe en l'eteignant
-	 */
-	public void eteindre() {
-		this.allume = false;
-	}
+    /**
+     * Active toutes les lampes contrôlées par la télécommande.
+     */
+    public void activerTout() {
+        for (Lampe lampe : this.lampes) {
+            lampe.allumer();
+        }
+    }
 
-	/**
-	 * retourne le descriptif de la lampe sous la forme nom + "On"/"Off"
-	 */
-	public String toString() {
-		String r = "";
-		if (this.allume) {
-			r = "On";
-		} else {
-			r = "Off";
-		}
-		return (nom + ": " + r);
-	}
-
-	/**
-	 * permet de savoir si la lampe est allumee
-	 * 
-	 * @return etat de la lampe
-	 */
-	public boolean isAllume() {
-		return allume;
-	}
+    /**
+     * Retourne une description de la télécommande et de ses lampes.
+     */
+    @Override
+    public String toString() {
+        StringBuilder description = new StringBuilder("Télécommande :\n");
+        // On parcourt la liste pour afficher l'indice et la description de chaque lampe
+        for (int i = 0; i < this.lampes.size(); i++) {
+            description.append("  [").append(i).append("] ").append(this.lampes.get(i).toString()).append("\n");
+        }
+        return description.toString();
+    }
 }
