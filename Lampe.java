@@ -2,36 +2,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe représentant une télécommande capable de contrôler plusieurs lampes.
+ * Classe représentant une télécommande capable de contrôler plusieurs lampes et chaînes Hifi.
  */
 public class Telecommande {
 
     /**
-     * Liste des lampes contrôlées par la télécommande.
+     * Listes des appareils contrôlés par la télécommande.
      */
     private List<Lampe> lampes;
+    private List<Hifi> hifis;
 
     /**
-     * Constructeur vide qui construit une télécommande ne contrôlant initialement aucune lampe.
+     * Constructeur vide qui initialise les listes.
      */
     public Telecommande() {
         this.lampes = new ArrayList<>();
+        this.hifis = new ArrayList<>();
     }
 
-    /**
-     * Ajoute une lampe à la télécommande.
-     * @param lampe La lampe à ajouter.
-     */
+    // ==========================================
+    // MÉTHODES POUR LES LAMPES
+    // ==========================================
+
     public void ajouterLampe(Lampe lampe) {
         this.lampes.add(lampe);
     }
 
-    /**
-     * Active la lampe située à l'indice donné.
-     * @param indiceLampe L'indice de la lampe à activer.
-     */
     public void activerLampe(int indiceLampe) {
-        // Gestion du cas exceptionnel : on vérifie que l'indice est valide
         if (indiceLampe >= 0 && indiceLampe < this.lampes.size()) {
             this.lampes.get(indiceLampe).allumer();
         } else {
@@ -39,12 +36,7 @@ public class Telecommande {
         }
     }
 
-    /**
-     * Désactive la lampe située à l'indice donné.
-     * @param indiceLampe L'indice de la lampe à désactiver.
-     */
     public void desactiverLampe(int indiceLampe) {
-        // Gestion du cas exceptionnel : on vérifie que l'indice est valide
         if (indiceLampe >= 0 && indiceLampe < this.lampes.size()) {
             this.lampes.get(indiceLampe).eteindre();
         } else {
@@ -52,25 +44,63 @@ public class Telecommande {
         }
     }
 
+    // ==========================================
+    // MÉTHODES POUR LES CHAINES HIFI
+    // ==========================================
+
+    public void ajouterHifi(Hifi hifi) {
+        this.hifis.add(hifi);
+    }
+
+    public void activerHifi(int indiceHifi) {
+        if (indiceHifi >= 0 && indiceHifi < this.hifis.size()) {
+            this.hifis.get(indiceHifi).allumer();
+        } else {
+            throw new IndexOutOfBoundsException("Erreur : Aucune chaîne Hifi à l'indice " + indiceHifi);
+        }
+    }
+
+    public void desactiverHifi(int indiceHifi) {
+        if (indiceHifi >= 0 && indiceHifi < this.hifis.size()) {
+            this.hifis.get(indiceHifi).eteindre();
+        } else {
+            throw new IndexOutOfBoundsException("Erreur : Aucune chaîne Hifi à l'indice " + indiceHifi);
+        }
+    }
+
+    // ==========================================
+    // COMMANDES GLOBALES ET AFFICHAGE
+    // ==========================================
+
     /**
-     * Active toutes les lampes contrôlées par la télécommande.
+     * Active toutes les lampes et toutes les chaînes Hifi.
      */
     public void activerTout() {
         for (Lampe lampe : this.lampes) {
             lampe.allumer();
         }
+        for (Hifi hifi : this.hifis) {
+            hifi.allumer();
+        }
     }
 
     /**
-     * Retourne une description de la télécommande et de ses lampes.
+     * Retourne une description de la télécommande et de tous ses appareils.
      */
     @Override
     public String toString() {
         StringBuilder description = new StringBuilder("Télécommande :\n");
-        // On parcourt la liste pour afficher l'indice et la description de chaque lampe
+
+        description.append("  -- Lampes --\n");
         for (int i = 0; i < this.lampes.size(); i++) {
             description.append("  [").append(i).append("] ").append(this.lampes.get(i).toString()).append("\n");
         }
+
+        description.append("  -- Hifi --\n");
+        for (int i = 0; i < this.hifis.size(); i++) {
+            description.append("  [").append(i).append("] ").append(this.hifis.get(i).toString()).append("\n");
+        }
+
         return description.toString();
     }
 }
