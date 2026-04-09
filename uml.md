@@ -33,5 +33,5 @@ classDiagram
         +getLampes() : List<Lampe>
         +getHifis() : List<Hifi>
     }
-    Telecommande o-- "0..*" Lampe : contrôle
-    Telecommande o-- "0..*" Hifi : contrôle
+    Telecommande <-- "0..*" Lampe : contrôle
+    Telecommande <-- "0..*" Hifi : contrôle
